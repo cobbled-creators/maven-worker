@@ -12,6 +12,19 @@ import {
 
 export const api = new Hono<{ Bindings: Env }>({ strict: false });
 
+function getContentDisposition(path: string): string {
+	const filename = path.split('/').at(-1)!;
+	const quotedFilename = filename.replace(/[\u0000-\u001f\u007f"\\]/g, (character) => {
+		if (character === '"' || character === '\\') {
+			return `\\${character}`;
+		}
+
+		return '_';
+	});
+
+	return `attachment; filename="${quotedFilename}"`;
+}
+
 api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 	const repo = c.req.param('repo');
 	const bucket = getBucket(c.env, repo);
@@ -47,6 +60,7 @@ api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 		headers.set('Accept-Ranges', 'bytes');
 		headers.set('Content-Length', object.size.toString());
 		headers.set('Cache-Control', cacheControl);
+		headers.set('Content-Disposition', getContentDisposition(path));
 		return new Response(null, { headers });
 	}
 
@@ -84,6 +98,7 @@ api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 	headers.set('etag', object.httpEtag);
 	headers.set('Accept-Ranges', 'bytes');
 	headers.set('Cache-Control', cacheControl);
+	headers.set('Content-Disposition', getContentDisposition(path));
 	// if a checksum, use the cache tag of the target file
 	if (isChecksumPath(path)) {
 		headers.set('Cache-Tag', path.replace(/\.[^.]+$/, ''));
