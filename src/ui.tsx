@@ -27,7 +27,7 @@ export const Layout = ({ children }: { children?: any }) => (
 	<main>
 		<header>
 			<div class="container">
-				<h1>{env.SERVER_NAME}</h1>
+				<h1><a href="/web">{env.SERVER_NAME}</a></h1>
 				<a href="https://github.com/gitoido-mc/xander-maven-worker" class="sources" target="_blank">
 					<i class="nes-icon github is-medium"></i>
 				</a>
@@ -75,7 +75,7 @@ ui.get('/', async (c) => {
 	);
 });
 
-ui.get('/:repo/*', async (c) => {
+ui.get('/:repo{[a-z]+}/*', async (c) => {
 	const repo = c.req.param('repo');
 	let path = c.req.path.substring(`/web/${repo}`.length);
 	if (path.startsWith('/')) path = path.substring(1);
@@ -119,11 +119,11 @@ ui.get('/:repo/*', async (c) => {
 		c,
 		<>
 			<Breadcrumbs repo={repo} path={path} />
-
+			<Coordinates repo={repo} path={path} hasFiles={files.filter(val => val.key.endsWith(".jar")).length > 0} />
 			<ul id="file-list">
 				{path.length > 0 && (
 					<li>
-						<a href={upHref}><i class="icon icon-s icon-up"></i></a>
+						<a href={upHref}><i class="icon icon-s icon-up"></i><span>..</span></a>
 					</li>
 				)}
 
@@ -162,6 +162,34 @@ ui.get('/:repo/*', async (c) => {
 		</>
 	);
 });
+
+const Coordinates = ({ repo, path, hasFiles }: { repo: string, path: string, hasFiles: boolean }) => {
+	// template to insert repo
+	const repoCoordinate = `repositories {
+  maven("https://maven.cobbled-creators.org/${repo}/")
+}`;
+	// template to insert deps
+
+	const pathBits = path.split('/').filter(Boolean);
+	const version = pathBits.pop();
+	const coordinate = pathBits.pop();
+	const group = pathBits.join(".");
+		const pathCoordinate = `repositories {
+  maven("https://maven.cobbled-creators.org/${repo}/")
+}
+
+dependencies {
+  modImplementation("${group}:${coordinate}:${version}")
+}
+`;
+
+	return (
+		<div class="nes-container with-title coordinates">
+			<p class="title">Repository coordinates :: build.gradle.kts</p>
+			<pre>{hasFiles ? pathCoordinate : repoCoordinate}</pre>
+		</div>
+	);
+}
 
 const Breadcrumbs = ({ repo, path }: { repo: string; path: string }) => {
 	const parts = path.split('/').filter(Boolean);
