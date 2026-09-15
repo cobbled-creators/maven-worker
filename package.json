@@ -10,13 +10,16 @@
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.12.4",
-		"@types/node": "^26.1.0",
-		"typescript": "^5.5.2",
-		"vitest": "~3.2.0",
-		"wrangler": "^4.107.0"
+		"@cloudflare/vitest-pool-workers": "^0.12.21",
+		"@types/node": "^26.5.0",
+		"discord-api-types": "^0.38.55",
+		"typescript": "^5.9.3",
+		"vitest": "~3.2.7",
+		"wrangler": "^4.129.1"
 	},
 	"dependencies": {
-		"hono": "^4.12.27"
+		"discord-hono": "^0.22.1",
+		"hono": "^4.13.7",
+		"pixelarticons": "^2.4.1"
 	}
 }

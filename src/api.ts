@@ -1,4 +1,4 @@
-import { Hono } from 'hono';
+import { Context, Hono } from 'hono';
 import crypto from 'node:crypto';
 import {
 	getBucket,
@@ -7,7 +7,7 @@ import {
 	isMutablePath,
 	isOverwritesEnabled,
 	isPotentialMavenObjectPath,
-	isValidatePathsEnabled,
+	isValidatePathsEnabled
 } from './utils';
 
 export const api = new Hono<{ Bindings: Env }>({ strict: false });
@@ -25,9 +25,17 @@ function getContentDisposition(path: string): string {
 	return `attachment; filename="${quotedFilename}"`;
 }
 
+function getRepoFromRequest(c: Context<{ Bindings: Env }>): string {
+	return c.req.param('repo')!!;
+}
+
+function getBucketFromRequest(env: Env, repo: string): R2Bucket | undefined {
+	return getBucket(env, repo);
+}
+
 api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
-	const repo = c.req.param('repo');
-	const bucket = getBucket(c.env, repo);
+	const repo = getRepoFromRequest(c);
+	const bucket = getBucketFromRequest(c.env, repo);
 
 	if (!bucket) {
 		console.warn({ repo: repo, rejected: 'unknown bucket' });
@@ -67,7 +75,7 @@ api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 	// Handle Range requests
 	const rangeHeader = c.req.header('Range');
 	let options: R2GetOptions = {
-		onlyIf: c.req.raw.headers,
+		onlyIf: c.req.raw.headers
 	};
 	let isRange = false;
 
@@ -119,7 +127,7 @@ api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 
 		return new Response(null, {
 			status,
-			headers,
+			headers
 		});
 	}
 
@@ -149,7 +157,7 @@ api.on(['GET', 'HEAD'], '/:repo/*', async (c) => {
 
 	return new Response(object.body, {
 		status,
-		headers,
+		headers
 	});
 });
 
@@ -228,7 +236,7 @@ api.put('/:repo/*', async (c) => {
 			}
 
 			await bucket.put(path, uploadedHashText, {
-				httpMetadata: { contentType: 'text/plain' },
+				httpMetadata: { contentType: 'text/plain' }
 			});
 			await invalidatePath(ctx, path);
 			console.info({ path: path, accepted: true, message: 'checksum validated, accepted' });
@@ -239,8 +247,8 @@ api.put('/:repo/*', async (c) => {
 
 	await bucket.put(path, buffer, {
 		httpMetadata: {
-			contentType: c.req.header('content-type') || 'application/octet-stream',
-		},
+			contentType: c.req.header('content-type') || 'application/octet-stream'
+		}
 	});
 	await invalidatePath(ctx, path);
 
@@ -256,7 +264,7 @@ api.put('/:repo/*', async (c) => {
 			bucket.put(`${path}.md5`, md5, { httpMetadata: { contentType: 'text/plain' } }),
 			bucket.put(`${path}.sha1`, sha1, { httpMetadata: { contentType: 'text/plain' } }),
 			bucket.put(`${path}.sha256`, sha256, { httpMetadata: { contentType: 'text/plain' } }),
-			bucket.put(`${path}.sha512`, sha512, { httpMetadata: { contentType: 'text/plain' } }),
+			bucket.put(`${path}.sha512`, sha512, { httpMetadata: { contentType: 'text/plain' } })
 		]);
 	}
 

@@ -1,0 +1,188 @@
+@import "colors.css";
+
+html, body, pre, code, kbd, samp {
+	font-family: "Press Start 2P", system-ui;
+}
+
+body {
+	padding: 0 2rem;
+	margin: 0 2rem;
+	background: var(--color-base);
+}
+
+.container {
+	max-width: 980px;
+	margin: 150px auto 0;
+}
+
+.container-wide {
+	margin: 150px auto 0;
+}
+
+a {
+	color: var(--color-red);
+}
+
+a:hover {
+	color: var(--color-pink);
+}
+
+/* Header */
+header {
+	position: fixed;
+	padding: 1rem 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 9;
+	border-bottom: 4px solid var(--color-surface0);
+	background-color: var(--color-crust);
+}
+
+header > .container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 980px;
+	margin: 0 auto;
+	transition: all 0.2s ease;
+}
+
+header > .container > h1 {
+	font-size: 1.2rem;
+	color: var(--color-teal);
+	display: flex;
+	margin: 0;
+}
+
+header > .container > a.sources {
+	font-size: .8rem;
+	height: 100%;
+	display: flex;
+}
+
+#file-list {
+	margin: 0;
+	padding: 0;
+}
+
+#file-list li:first-child {
+	padding-top: 0;
+}
+
+#file-list li:last-child {
+	padding-bottom: 0;
+}
+
+#file-list li {
+	padding: 1rem 0;
+}
+
+#file-list li.file {
+	display: flex;
+	align-items: center;
+}
+
+#file-list li:not(:last-child) {
+	border-bottom: 5px solid var(--color-surface0);
+}
+
+#file-list li a {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+#file-list li .file, #file-list li .folder {
+	display: flex;
+	gap: 1rem;
+}
+
+#file-list li.record {
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+#file-list li .meta {
+	color: var(--color-mauve);
+}
+
+nav .breadcrumbs {
+	display: flex;
+	list-style: none;
+	padding: 0 0 1rem 0;
+	margin: 0 0 1rem 0;
+	border-bottom: 5px dashed var(--color-surface0);
+}
+
+nav .breadcrumbs li:not(:last-child) {
+	margin: 0 1rem 0 0;
+	position: relative;
+}
+
+nav .breadcrumbs li:not(:last-child):after {
+	content: "/";
+	display: block;
+	position: absolute;
+	margin: 0 1rem 0 0;
+	top: 0;
+	right: 0;
+}
+
+nav .breadcrumbs li .icon {
+	display: block;
+	float: left;
+}
+
+nav .breadcrumbs li span.separator {
+	color: var(--color-subtext0);
+	margin: 0 0 0 1rem;
+}
+
+.icon {
+	background-repeat: no-repeat;
+	background-size: contain;
+	image-rendering: pixelated;
+	display: block;
+}
+
+.icon.icon-s {
+	width: 24px;
+	height: 24px;
+}
+
+.icon.icon-m {
+	width: 48px;
+	height: 48px;
+}
+
+.icon.icon-l {
+	width: 72px;
+	height: 72px;
+}
+
+.icon.icon-xl {
+	width: 96px;
+	height: 96px;
+}
+
+.icon.icon-folder {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aCBkPSJNMjAgMjBINHYtMmgxNnYyWk00IDE4SDJWNmgydjEyWm0xOCAwaC0yVjhoMnYxMFpNMjAgOEgxMFY2SDRWNGg4djJoOHYyWiIvPgo8L3N2Zz4K");
+}
+
+.icon.icon-file {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aCBkPSJNMTggMjJINnYtMmgxMnYyWk02IDIwSDRWNGgydjE2Wk0xNiA0aC0ydjRoNFY2aDJ2MTRoLTJWMTBoLTZWNEg2VjJoMTB2MlptMiAyaC0yVjRoMnYyWiIvPgo8L3N2Zz4K");
+}
+
+.icon.icon-home {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aAoJCWQ9Ik0xMCAyMGg0di02aDJ2Nmg0djJINHYtMmg0di02aDJ2NlptLTYgMEgyVjEwaDJ2MTBabTE4IDBoLTJWMTBoMnYxMFptLTgtNmgtNHYtMmg0djJabS04LTRINFY4aDJ2MlptMTQgMGgtMlY4aDJ2MlpNOCA4SDZWNmgydjJabTEwIDBoLTJWNmgydjJabS04LTJIOFY0aDJ2MlptNiAwaC0yVjRoMnYyWm0tMi0yaC00VjJoNHYyWiIvPgo8L3N2Zz4K");
+}
+
+.icon.icon-up {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aCBkPSJNOCAyMWg4di0ySDh6bTAtNGg4di0ySDh6Ii8+Cgk8cGF0aAoJCWQ9Ik04IDE3aDJ2LTRIOHptLTUtNGg1di0ySDN6bTAtMmgyVjlIM3ptMi0yaDJWN0g1em0yLTJoMlY1SDd6bTItMmgyVjNIOXptMi0yaDJWMWgtMnptMiAyaDJWM2gtMnptMiAyaDJWNWgtMnptMiAyaDJWN2gtMnptMiA0aDJWOWgtMnptLTMgMGgzdi0yaC0zem0tMiA0aDJ2LTRoLTJ6Ii8+Cjwvc3ZnPgo=");
+}
+
+.icon.icon-globe {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aAoJCWQ9Ik0xMiAyMGgydi00aDJ2NGgydjJINnYtMmg0di00aDJ2NFptLTYgMEg0di0yaDJ2MlptMTQgMGgtMnYtMmgydjJaTTQgMTJoMnYySDR2NEgyVjZoMnY2Wm0xOCA2aC0ydi0yaC00di0yaDR2LTRoLTJWOGgyVjZoMnYxMlptLTEyLTJINnYtMmg0djJabTgtNGgtNHYtMmg0djJabS00LTJoLTRWOGg0djJabTQtNmgtOHY0SDhWNEg2VjJoMTJ2MlpNNiA2SDRWNGgydjJabTE0IDBoLTJWNGgydjJaIi8+Cjwvc3ZnPgo=");
+}

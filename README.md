@@ -1,6 +1,7 @@
-# Xander's Maven Worker
+# Cobbled Maven Worker
 
-A Maven Server in the form of a Cloudflare Worker, using Cloudflare R2 for storage.
+A forked version of [Xander's Maven Worker](https://github.com/isXander/xander-maven-worker) with cozy styling and discord integration via `discord-hono`.
+
 
 ## Features
 
@@ -21,7 +22,7 @@ A Maven Server in the form of a Cloudflare Worker, using Cloudflare R2 for stora
   - Stored credentials in D1 database, hashed with SHA-256 and peppered
   - Fast, lower-security hashing algorithm (SHA-256) used as passwords are expected to be high entropy and randomised, not memorable
   - No permissions system; a credential has full read/write access to all repositories
-  - Currently credentials cannot be managed remotely, you must edit the D1 database directly; password hashes use `sha256(password + pepper)`
+  - Credentials are managed via discord bot `sha256(password + pepper)`
 - Multiple repositories; each repository is a separate Cloudflare R2 bucket
 
 ## Configuration
