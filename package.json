@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"discord-hono": "^0.22.1",
+		"fast-xml-builder": "^1.3.1",
 		"hono": "^4.13.7",
 		"pixelarticons": "^2.4.1"
 	}

@@ -171,8 +171,8 @@ const Coordinates = ({ repo, path, hasFiles }: { repo: string, path: string, has
 	// template to insert deps
 
 	const pathBits = path.split('/').filter(Boolean);
-	const version = pathBits.length > 3 ? pathBits.pop() : "";
-	const coordinate = pathBits.length > 3 ? pathBits.pop() : "";
+	const version = pathBits.length > 2 ? pathBits.pop() : "";
+	const coordinate = pathBits.length > 2 ? pathBits.pop() : "";
 	const group = pathBits.join(".");
 		const pathCoordinate = `repositories {
   maven("https://maven.cobbled-creators.org/${repo}/")
