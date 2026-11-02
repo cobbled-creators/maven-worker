@@ -17,10 +17,10 @@ const options = [
 export const SubCommandMavenTokenCreate = factory.subCommand(
 	makeSubCommand('create', 'Create Token').options(options),
 	async c => {
+		const userName = (c.var.username as String).replaceAll(/[^\w\d\-_]/ig, '_');
 		const userId = c.interaction.member?.user.id;
 		const timestamp = Date.now();
 		const random = randomBytes(64);
-
 		const db = c.env.DB;
 		const encoder = new TextEncoder();
 		const bytes = encoder.encode(userId!! + timestamp!! + random + c.env.PEPPER);
@@ -30,17 +30,17 @@ export const SubCommandMavenTokenCreate = factory.subCommand(
 		console.debug({
 			userId: userId,
 			timestamp: timestamp,
-			userName: c.var.username,
+			userName: userName,
 			hash: hash
 		})
 		const stmt = db
 			.prepare('INSERT INTO credentials(username, discord_id, password_hash) VALUES (?, ?, ?)')
-			.bind(c.var.username, userId, hash);
+			.bind(userName, userId, hash);
 
 		await stmt.run();
 
 		const message = `Success!\n` +
-			`**User:** \`${c.var.username}\`\n` +
+			`**User:** \`${userName}\`\n` +
 			`**Token:** \`${hash}\`\n\n` +
 			`**DONT SHARE IT WITH ANYONE!**`;
 
