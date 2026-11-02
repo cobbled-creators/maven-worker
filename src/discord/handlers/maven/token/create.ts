@@ -1,11 +1,7 @@
 import { factory } from '../../../factory';
 import { CommandContext, makeStringOption, makeSubCommand } from 'discord-hono';
 import { MessageFlags, RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { randomBytes } from 'node:crypto';
-
-type CommandReq = CommandContext<{ Bindings: Env } & {
-	Variables?: {} | undefined
-}, RESTPostAPIChatInputApplicationCommandsJSONBody>;
+import { hashValuesToString } from './util';
 
 const options = [
 	makeStringOption(
@@ -15,24 +11,16 @@ const options = [
 ];
 
 export const SubCommandMavenTokenCreate = factory.subCommand(
-	makeSubCommand('create', 'Create Token').options(options),
+	makeSubCommand('create', 'Create token').options(options),
 	async c => {
-		const userName = (c.var.username as String).replaceAll(/[^\w\d\-_]/ig, '_');
-		const userId = c.interaction.member?.user.id;
+		if (!c.interaction.member) return c.res({ content: `Guild member not found`, flags: MessageFlags.Ephemeral });
+
+		const userName = (c.var.username as String).replaceAll(/[^\w\-_]/ig, '_');
+		const userId = c.interaction.member.user.id;
 		const timestamp = Date.now();
-		const random = randomBytes(64);
 		const db = c.env.DB;
-		const encoder = new TextEncoder();
-		const bytes = encoder.encode(userId!! + timestamp!! + random + c.env.PEPPER);
-		const digest = await crypto.subtle.digest('SHA-256', bytes);
-		const hashArray = Array.from(new Uint8Array(digest));
-		const hash = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-		console.debug({
-			userId: userId,
-			timestamp: timestamp,
-			userName: userName,
-			hash: hash
-		})
+		const hash = await hashValuesToString(userName, timestamp.toString(), c.env.PEPPER)
+
 		const stmt = db
 			.prepare('INSERT INTO credentials(username, discord_id, password_hash) VALUES (?, ?, ?)')
 			.bind(userName, userId, hash);
@@ -46,8 +34,7 @@ export const SubCommandMavenTokenCreate = factory.subCommand(
 
 		return c.res({
 			content: message,
-			flags: MessageFlags.Ephemeral,
-
+			flags: MessageFlags.Ephemeral
 		});
 	}
 );
