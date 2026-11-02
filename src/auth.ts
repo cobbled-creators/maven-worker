@@ -28,16 +28,10 @@ export async function basicAuth(c: Context<{ Bindings: Env }>, next: Next) {
 	// Verify against D1
 	const db = c.env.DB;
 
-	const encoder = new TextEncoder();
-	const data = encoder.encode(password + c.env.PEPPER);
-	const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-	const hashArray = Array.from(new Uint8Array(hashBuffer));
-	const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-
 	const stmt = db.prepare('SELECT password_hash FROM credentials WHERE username = ?').bind(username);
 	const row = await stmt.first<{ password_hash: string }>();
 
-	if (!row || row.password_hash !== hashHex) {
+	if (!row || row.password_hash !== password) {
 		return c.text('Unauthorized', {
 			status: 401,
 			headers: {

@@ -5,8 +5,8 @@ import { hashValuesToString } from './util';
 
 const options = [
 	makeStringOption(
-		'username',
-		'Set the token username'
+		'name',
+		'Set the token name'
 	)
 ];
 
@@ -15,20 +15,20 @@ export const SubCommandMavenTokenCreate = factory.subCommand(
 	async c => {
 		if (!c.interaction.member) return c.res({ content: `Guild member not found`, flags: MessageFlags.Ephemeral });
 
-		const userName = (c.var.username as String).replaceAll(/[^\w\-_]/ig, '_');
+		const name = (c.var.name as String).replaceAll(/[^\w\-_]/ig, '_');
 		const userId = c.interaction.member.user.id;
 		const timestamp = Date.now();
 		const db = c.env.DB;
-		const hash = await hashValuesToString(userName, timestamp.toString(), c.env.PEPPER)
+		const hash = await hashValuesToString(name, timestamp.toString(), c.env.PEPPER)
 
 		const stmt = db
 			.prepare('INSERT INTO credentials(username, discord_id, password_hash) VALUES (?, ?, ?)')
-			.bind(userName, userId, hash);
+			.bind(name, userId, hash);
 
 		await stmt.run();
 
 		const message = `Success!\n` +
-			`**User:** \`${userName}\`\n` +
+			`**User:** \`${name}\`\n` +
 			`**Token:** \`${hash}\`\n\n` +
 			`**DONT SHARE IT WITH ANYONE!**`;
 
