@@ -170,3 +170,4 @@ dist
 
 # Idea
 .idea/
+/*.sqlite

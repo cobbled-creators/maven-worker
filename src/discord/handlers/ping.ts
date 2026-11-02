@@ -1,7 +1,7 @@
 import { makeSlashCommand } from 'discord-hono';
 import { factory } from '../factory';
 
-export const PingCommand = factory.command(
+export const CommandPing = factory.command(
 	makeSlashCommand('ping', 'Check state of the maven'),
 	c => c.res(
 		`Pong!\n` +
