@@ -28,7 +28,7 @@ export const Layout = ({ children }: { children?: any }) => (
 		<header>
 			<div class="container">
 				<h1><a href="/web">{env.SERVER_NAME}</a></h1>
-				<a href="https://github.com/gitoido-mc/xander-maven-worker" class="sources" target="_blank">
+				<a href="https://github.com/cobbled-creators/maven-worker" class="sources" target="_blank">
 					<i class="nes-icon github is-medium"></i>
 				</a>
 			</div>
@@ -195,10 +195,16 @@ const Breadcrumbs = ({ repo, path }: { repo: string; path: string }) => {
 	const parts = path.split('/').filter(Boolean);
 
 	let currentPath = '';
-	console.log(parts);
 	const breadcrumbs = parts.map((part, index) => {
 		currentPath += part + '/';
 		const isLast = index === parts.length - 1;
+		const isSecondToLast = index === parts.length - 2;
+		const isLong = parts.length > 3;
+		const formatted = () => {
+			if (isLong && isSecondToLast) return part;
+			if (isLong && !isSecondToLast) return part[0];
+			return part;
+		};
 		return (
 			<li>
 				{isLast ? (
@@ -209,7 +215,7 @@ const Breadcrumbs = ({ repo, path }: { repo: string; path: string }) => {
 					</span>
 				) : (
 					<span class="entry">
-						<a href={`/web/${repo}/${currentPath}`}>{part}</a>
+						<a href={`/web/${repo}/${currentPath}`} title={part}>{formatted()}</a>
 						<span class="separator">/</span>
 					</span>
 				)}

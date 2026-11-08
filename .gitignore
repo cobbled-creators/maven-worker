@@ -171,3 +171,4 @@ dist
 # Idea
 .idea/
 /*.sqlite
+http-client.private.env.json
