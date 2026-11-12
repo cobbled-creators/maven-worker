@@ -8,9 +8,10 @@ import {
 	isOverwritesEnabled,
 	isPotentialMavenObjectPath,
 	isValidatePathsEnabled
-} from './utils';
+} from '../util/helpers';
+import { Variables } from '../util/types';
 
-export const api = new Hono<{ Bindings: Env }>({ strict: false });
+export const api = new Hono<{ Bindings: Env, Variables: Variables }>({ strict: false });
 
 function getContentDisposition(path: string): string {
 	const filename = path.split('/').at(-1)!;
@@ -25,7 +26,7 @@ function getContentDisposition(path: string): string {
 	return `attachment; filename="${quotedFilename}"`;
 }
 
-function getRepoFromRequest(c: Context<{ Bindings: Env }>): string {
+function getRepoFromRequest(c: Context<{ Bindings: Env, Variables: Variables }>): string {
 	return c.req.param('repo')!!;
 }
 

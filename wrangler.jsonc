@@ -17,7 +17,7 @@
 		"enabled": true
 	},
 	"vars": {
-		"SERVER_NAME": "Cobbled Creators :: Maven",
+		"SERVER_NAME": "Maven :: Cobbled Creators",
 		"REPOSITORIES": "releases,snapshots",
 		"CHECKSUM_VALIDATION": "true",
 		"CHECKSUM_AUTOGENERATION": "true",

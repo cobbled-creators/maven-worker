@@ -53,11 +53,7 @@ export function isPotentialMavenObjectPath(path: string): boolean {
 	}
 
 	// Snapshots do not fit <artifactId>-<version> naming convention
-	if (!version.endsWith('-SNAPSHOT')) {
-		return false;
-	}
-
-	return true;
+	return version.endsWith('-SNAPSHOT');
 }
 export function isMutablePath(path: string): boolean {
 	return path.includes('maven-metadata.xml') || path.includes('SNAPSHOT');

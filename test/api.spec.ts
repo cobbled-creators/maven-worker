@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { api } from '../src/api';
+import { api } from '../src/web/api';
 
 describe('Maven downloads', () => {
 	const body = 'SDL3 native library';

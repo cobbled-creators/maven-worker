@@ -84,6 +84,10 @@ a:hover {
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmOWUyYWYiIHZpZXdCb3g9IjAgMCAyNCAyNCI+Cgk8cGF0aAoJCWQ9Ik0xMiAyMGgydi00aDJ2NGgydjJINnYtMmg0di00aDJ2NFptLTYgMEg0di0yaDJ2MlptMTQgMGgtMnYtMmgydjJaTTQgMTJoMnYySDR2NEgyVjZoMnY2Wm0xOCA2aC0ydi0yaC00di0yaDR2LTRoLTJWOGgyVjZoMnYxMlptLTEyLTJINnYtMmg0djJabTgtNGgtNHYtMmg0djJabS00LTJoLTRWOGg0djJabTQtNmgtOHY0SDhWNEg2VjJoMTJ2MlpNNiA2SDRWNGgydjJabTE0IDBoLTJWNGgydjJaIi8+Cjwvc3ZnPgo=");
 }
 
+.icon.icon-github {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNhNmUzYTEiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDE0aC0ydjJoLTJ2MmgydjRIN3YtNEgzdi0ySDF2LTJoMnYyaDR2LTJINXYtMkgzVjZoMlYyaDR2Mmg2VjJoNHY0aDJ2NmgtMnYyWk03IDE4aDJ2LTJIN3YyWiIvPjwvc3ZnPg==");
+}
+
 
 /* Header */
 header {
@@ -166,6 +170,7 @@ nav .breadcrumbs li span.separator {
 .coordinates .title {
 	background-color: var(--color-surface1) !important;
 	color: var(--color-mauve);
+	padding-top: 0.2rem !important;
 	margin: calc(-4px + -1.5rem) calc(-4px + -2rem) 1rem calc(-4px + -2rem) !important;
 }
 

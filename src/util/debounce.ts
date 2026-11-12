@@ -1,6 +1,6 @@
 import XMLBuilder from 'fast-xml-builder';
 import crypto from 'node:crypto';
-import { getBucket } from './utils';
+import { getBucket } from './helpers';
 import { DurableObject } from 'cloudflare:workers';
 
 export class MetadataDebouncer extends DurableObject {
